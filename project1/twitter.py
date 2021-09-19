@@ -7,9 +7,9 @@ import tweepy
 
 
 class Twitter:
-    def __init__(self):
-        self.auth = tweepy.OAuthHandler("TfDQ92hEO3ToWtvt7UrlG6tKQ", "8btQr6X2rx9YhEFHjWePKCE1HAQ0dzfTZLzgsmLLxXy7n2utR3")
-        self.auth.set_access_token("1432402312958521344-sSWtqVPerATh3mJ3uPLz4GGBPFM4KN", "b77OeviiJPmVzbMfdffrh93VS2DGKSjl7JWNMyudrDJbX")
+    def __init__(self):    
+        self.auth = tweepy.OAuthHandler("", "")
+        self.auth.set_access_token("", "")
         self.api = tweepy.API(self.auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
     def _meet_basic_tweet_requirements(self):
