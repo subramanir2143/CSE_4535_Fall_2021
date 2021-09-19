@@ -18,24 +18,56 @@ class TWPreprocessor:
         :param tweet:
         :return: dict
         '''
+        dict = {}
+        twitter_user = tweet.user
+        clean_text = _text_cleaner(tweet.full_text)
 
-        raise NotImplementedError
+        dict['poi_name'] = twitter_user.screen_name  # should not be set to anything for non POIs
+        dict['poi_id'] = twitter_user.id    # should not be set to anything for non POIs
+        dict['verified'] = twitter_user.verified
+        dict['country'] = _get_country(tweet.lang)
+        dict['id'] = tweet.id
 
+        if(tweet.in_reply_to_status_id != None):
+            dict['replied_to_tweet_id'] = tweet.in_reply_to_status_id
+            dict['reply_text'] = clean_text[0]
+        if(tweet.in_reply_to_user_id != None):
+            dict['replied_to_user_id'] = tweet.in_reply_to_user_id
+
+        dict['tweet_text'] = tweet.full_text
+        dict['tweet_lang'] = tweet.lang
+        dict['text_' + tweet.lang] = tweet.full_text
+        dict['hashtags'] = _get_entities(tweet, type = 'hashtags')
+        dict['mentions'] = _get_entities(tweet, type = 'mentions')
+        dict['tweet_urls'] = _get_entities(tweet, type = 'urls')
+        dict['tweet_emoticons']= clean_text[1]
+        dict['tweet_date'] = _get_tweet_date(tweet._json['created_at'])
+        dict['geolocation'] = tweet.geo
+
+        return dict
+
+def _get_country(lang):
+    if(lang == 'hi'):
+        return 'India'
+    elif (lang == 'en'):
+        return 'USA'
+    else:
+        return 'Mexico'
 
 def _get_entities(tweet, type=None):
     result = []
     if type == 'hashtags':
-        hashtags = tweet['entities']['hashtags']
+        hashtags = tweet.entities['hashtags']
 
         for hashtag in hashtags:
             result.append(hashtag['text'])
     elif type == 'mentions':
-        mentions = tweet['entities']['user_mentions']
+        mentions = tweet.entities['user_mentions']
 
         for mention in mentions:
             result.append(mention['screen_name'])
     elif type == 'urls':
-        urls = tweet['entities']['urls']
+        urls = tweet.entities['urls']
 
         for url in urls:
             result.append(url['url'])
