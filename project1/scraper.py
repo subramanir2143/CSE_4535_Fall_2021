@@ -9,25 +9,26 @@ import pandas as pd
 from twitter import Twitter
 from tweet_preprocessor import TWPreprocessor
 from indexer import Indexer
+from pathlib import Path
 
 reply_collection_knob = False
-
+path = Path(__file__).parent
 
 def read_config():
-    with open("config.json") as json_file:
+    with open(path / "config.json") as json_file:
         data = json.load(json_file)
 
     return data
 
 
 def write_config(data):
-    with open("config.json", 'w') as json_file:
+    with open(path / "config.json", 'w') as json_file:
         json.dump(data, json_file)
 
 
 def save_file(data, filename):
     df = pd.DataFrame(data)
-    df.to_pickle("data/" + filename)
+    df.to_pickle(path / "data/" + filename)
 
 
 def read_file(type, id):
