@@ -47,7 +47,7 @@ def main():
         if pois[i]["finished"] == 0:
             print(f"---------- collecting tweets for poi: {pois[i]['screen_name']}")
 
-            raw_tweets = twitter.get_tweets_by_poi_screen_name()  # pass args as needed
+            raw_tweets = twitter.get_tweets_by_poi_screen_name(pois[i]['screen_name'], pois[i]['count'])  # pass args as needed
 
             processed_tweets = []
             for tw in raw_tweets:
@@ -69,7 +69,7 @@ def main():
         if keywords[i]["finished"] == 0:
             print(f"---------- collecting tweets for keyword: {keywords[i]['name']}")
 
-            raw_tweets = twitter.get_tweets_by_lang_and_keyword()  # pass args as needed
+            raw_tweets = twitter.get_tweets_by_lang_and_keyword(keywords[i]['name'], keywords[i]['count'], keywords[i]['lang'])  # pass args as needed
 
             processed_tweets = []
             for tw in raw_tweets:
